@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Demo chương trình</title>
+	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+	<link rel="stylesheet" href="text_speech.css">
+</head>
+<body>
+	<div class="main">
+		<h3>Phầm mềm dùng thử</h3>
+		<div class="block_textarea">
+			<div class="block_header">
+				<div class="item">
+					<select id="lang_mic" class="form-control">
+			          <option value="vi-VN">Tiếng Việt</option>
+			          <option value="en-US">Tiếng Anh</option>
+			        </select>
+			        <div class="icon_mic"><i class="fas fa-microphone"></i></div>
+				</div>
+				<div class="item">
+					<select id="gender" class="form-control">
+			          	<option value="Vietnamese Male">Tiếng Việt (Giọng Nam)</option>
+			          	<option value="Vietnamese Female">Tiếng Việt (Giọng Nữ)</option>
+			          	<option value="US English Male">US English Male</option>
+			          	<option value="US English Female">US English Female</option>
+			        </select>
+			        <div class="icon_heard"><i class="fas fa-volume-up"></i></div>
+					<div class="icon_pause"><i class="fas fa-pause"></i></div>
+				</div>
+			</div>
+			<textarea class="text_zone"></textarea>
+		</div>
+	</div>
+
+	<script src="https://code.responsivevoice.org/responsivevoice.js?key=XlsBiUwm"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+	<script type="text/javascript">
+		class SpeechRecognitionApi{
+		    constructor(options) {
+		        const SpeechToText = window.speechRecognition || window.webkitSpeechRecognition;
+		        this.speechApi = new SpeechToText();
+		        this.speechApi.continuous = false;
+		        this.speechApi.interimResults = false;
+		        this.output = options.output ? options.output : document.createElement('div');
+		        this.speechApi.onresult = (event)=> { 
+		            //console.log(event);
+		            var resultIndex = event.resultIndex;
+		            var transcript = event.results[resultIndex][0].transcript;
+		            // console.log('transcript>>', transcript);
+		            // console.log(this.output)
+		            this.output.textContent = transcript;
+		        }
+		    }
+		    init(lang){
+		    	if(lang != undefined)
+		    		this.speechApi.lang = lang
+		        this.speechApi.start();
+		    }
+		    stop(){
+		        this.speechApi.stop();
+		    }
+		}
+		const micIcon = document.querySelector('.icon_mic');
+		let textInputElement = document.querySelector('.text_zone');
+		var speech = new SpeechRecognitionApi({
+			output: textInputElement,
+		});
+
+		micIcon.onclick = function() {
+			let lang = $("#lang_mic").val();
+			speech.init(lang);
+		}
+		$("#lang_mic").change(() =>{
+			let lang = $("#lang_mic :selected").text();
+			alert(`Bạn đã chọn ngôn ngữ ${lang}`);
+		})
+	</script>
+	<script type="text/javascript">
+		if(responsiveVoice.voiceSupport()) {
+	      	responsiveVoice.setDefaultVoice("Vietnamese Male");
+	      	responsiveVoice.setDefaultRate(1);
+	      	$(".icon_heard").click(function(){
+	      		let text = $(".text_zone").val();
+		    	let gender = $("#gender").val();
+		      	if(text != "")
+		      		responsiveVoice.speak(text,gender, {rate: 1, pitch: 1,volume: 1});
+		      	else
+		      		alert("Không có nội dung");
+		    });
+		    $(".icon_pause").click(function(){
+		    	let text = $(".text_zone").val();
+		    	let gender = $("#gender").val();
+		    	if(text != "")
+		      	{
+		      		if(responsiveVoice.isPlaying()) {
+			        	responsiveVoice.pause();
+			      	} else {
+			        	responsiveVoice.resume();
+			     	}
+		      	}
+		      	else
+		      		alert("Không có nội dung");
+		    });
+	    }
+	   	$(".text_zone").select(function() {
+	   		let text = $(".text_zone").val();
+		    let gender = $("#gender").val();
+	   		responsiveVoice.speak(text,gender, {rate: 1, pitch: 1,volume: 1});
+	   	})
+	</script>
+</body>
+</html>

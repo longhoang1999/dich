@@ -1,0 +1,59 @@
+.main{
+	width: 100%;
+	display: flex;
+	text-align: center;
+	flex-direction: column;
+	justify-content: center;
+}
+.block_textarea{
+	width: 50%;
+	margin: auto;
+}
+.block_header{
+	height: 40px;
+	line-height: 40px;
+	display: flex;
+	justify-content: space-between;
+}
+.block_header .item{
+	display: flex;
+}
+.icon_mic{margin-left: 10px;}
+.icon_mic, .icon_heard, .icon_pause{
+	width: 30px;
+    height: 30px;
+    line-height: 30px;
+    cursor: pointer;
+    background: #e1dbdb;
+    border-radius: 4px;
+}
+.text_zone{
+	min-width: 100%;
+	max-width: 100%;
+	min-height: 10rem;
+	border: 1px solid #00c600;
+	border-radius: 5px;
+	outline: none;
+	padding: .5rem;
+	font-size: 20px;
+	color: #6a6aff;
+}	
+select{
+	outline: none;
+	
+}
+#gender{
+	height: 30px;
+    line-height: 30px;
+    border: 1px solid #00c600;
+    border-radius: 5px;
+}
+#lang_mic{
+	height: 30px;
+    line-height: 30px;
+    border: 1px solid #00c600;
+    border-radius: 5px;
+}
+.icon_heard, .icon_pause{
+	margin-left: 10px;
+}
